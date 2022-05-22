@@ -41,10 +41,13 @@ tail(iris) # Con tail() puedes ver las últimas ovservaciones
 summary(iris) # Análisis con estadígrafos básicos para variables numéricas
 glimpse(iris) # Visualizacion de datos (invierte filas por columnas, y da informacion)
 view(iris)
-min(iris$Sepal.Length) # seleccionar una variable con $
-max(iris$Sepal.Length)
+min(iris$Sepal.Length) # seleccionar una columna y da su valor minimo$
+max(iris$Sepal.Length) # seleccionar una columna y da su valor maximo$
 unique(iris$Species) # listar valores únicos
-table(iris$Species) # conteo de variables
+table(iris$Species) # conteo de repeticion de valores
+
+unique(iris$Sepal.Length)
+table(iris$Sepal.Length)
 
 dim(Iris) # cuidado con las mayúsculas! 
 
@@ -91,7 +94,7 @@ iris %>%
 
 # Ver tipo de variables
 
-data_frame(variable = names(iris)) %>% # Al usar data_frame() da un Warning. Cámbialo por tibble()
+tibble(variable = names(iris)) %>% # Al usar data_frame() da un Warning. Cámbialo por tibble()
   mutate(class = map(iris, typeof)) %>% 
   kable()
 
@@ -121,7 +124,7 @@ names(setosa)[3] <- "Petalo2"
 # Si bien no son tan lindos, son rápidos de generar y permiten obtener información de los datos
 plot(iris$Sepal.Length)
 plot(iris$Sepal.Length, iris$Sepal.Width)
-plot(iris$Sepal.Length, iris$Sepal.Width, col = iris$Species, pch = 19) # Puedes usar otros plot character (pch)
+plot(iris$Sepal.Length, iris$Sepal.Width, col = iris$Species, pch = 17) # Puedes usar otros plot character (pch)
 
 plot(iris$Petal.Length, iris$Petal.Width,
      col = iris$Species, 
@@ -141,26 +144,27 @@ legend("bottomright",
 
 boxplot(Petal.Length ~ Species, 
         data = iris, 
-        notch = T)
+        notch = F)
 
 ## Ahora con ggplot2
 # ggplot2 aporta mucha capacidad a las visualizaciones y permite gran personalización
 # En el módulo de visualización y análisis exploratorio veremos más detalles de los gráficos
 
 ggplot(iris, aes(x = Species, y = Sepal.Width)) +
-  geom_boxplot(notch = T, aes(fill = Species)) +
+  geom_boxplot(notch = F, aes(fill = Species)) +
   scale_fill_manual(name = "Especie", values = c('#a6cee3','#1f78b4','#b2df8a'))
 
 ggplot(iris, aes(x = Species, y = Sepal.Width)) +
-  geom_boxplot(notch = T, aes(fill = Species)) +
+  geom_boxplot(notch = F, aes(fill = Species)) +
   scale_fill_viridis_d(name = "Especie")
 
 ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
   geom_jitter(aes(shape = Species))
 
 ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
-  geom_violin(fill = '#a6cee3') + 
-  coord_flip()
+  geom_violin(fill = '#a6cee3') #+ 
+  #coord_flip()
+?aes
 
 # Se puede guardar en un objeto un gráfico
 p <- ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
@@ -168,13 +172,15 @@ p <- ggplot(iris, aes(x = Species, y = Sepal.Width)) +
   geom_jitter(aes(color = Species)) # Cuidado con el orden de las capas. Intenta cambiando el orden de la línea 161 y 162
 p
 
+?geom_jitter
+
 # Podríamos guardar algunas cosas
 
 # Plots
 # Una alternativa es usar la interfaz de RStudio "Export" o save image as
 # Pero también podemos hacerlo con código
 
-ggsave(p, filename = "boxplot_especies.png",
+ggsave(p, filename = "modulo1/boxplot_especies.png",  # se puede modificar el path para guardar en otra carpeta
        width = 20,
        height = 15,
        units = "cm")
@@ -186,4 +192,5 @@ ciudad <- c("Santiago", "Talca", "Puerto Montt", "Santiago", "Arica")
 df <- data.frame(edad, ciudad)
 
 write.csv(df, "ciudades.csv", row.names = FALSE) # Averigua qué sucede si no se usa el argumento row.names
+
 
