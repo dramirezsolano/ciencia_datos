@@ -40,6 +40,7 @@ head(iris, 3) # Puedes indicarle a head() el n° de observaciones ue quieres ver
 tail(iris) # Con tail() puedes ver las últimas ovservaciones 
 summary(iris) # Análisis con estadígrafos básicos para variables numéricas
 glimpse(iris) # Visualizacion de datos (invierte filas por columnas, y da informacion)
+view(iris)
 min(iris$Sepal.Length) # seleccionar una variable con $
 max(iris$Sepal.Length)
 unique(iris$Species) # listar valores únicos
